@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head"></head>
+
+<body>
+
+<div th:replace="fragments.html :: main-nav"></div>
+<div class="alert alert-warning" role="alert" th:if="${account != null && !account?.emailVerified}">
+    보드빌 가입을 완료하려면 <a href="#" th:href="@{/check-email(email=${account.email})}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
+</div>
+<div>
+
+
+
+
+</div>
+
+<div class="row text-center" style="width: 100%">
+
+    <div class="col-md-3">
+
+        <div class="row justify-content-center">
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div th:replace="fragments.html :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head">
+  <div>
+
+    <div class="align-self-center m-5">
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${!requestPage.hasPrevious()}? disabled">
+            <a th:href="'/?page='+@{ ${requestPage.getNumber() - 1}}"
+               class="page-link" tabindex="-1" aria-disabled="true">
+              Previous
+            </a>
+          </li>
+          <li class="page-item" th:classappend="${i == requestPage.getNumber()}? active"
+              th:each="i: ${#numbers.sequence(0, requestPage.getTotalPages() - 1)}">
+            <a th:href="'/?page='+@{${i}}"
+               class="page-link" href="#" th:text="${i + 1}">1</a>
+          </li>
+          <li class="page-item" th:classappend="${!requestPage.hasNext()}? disabled">
+            <a th:href="'/?page='+@{ ${requestPage.getNumber() + 1}}"
+               class="page-link">
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+
+  </div>
+
+  <div class="row text-center" style="width: 100%">
+
+    <div class="col-md-3">
+
+      <div class="row justify-content-center">
+
+        <div th:replace="fragments.html :: request-list (requestList=${requestPage.getContent()})" ></div>
+      </div>
+
+    </div>
+
+    <a href="#" th:href="@{/request/add}" >보드게임 요청</a>
+
+  </div>
+</html>
