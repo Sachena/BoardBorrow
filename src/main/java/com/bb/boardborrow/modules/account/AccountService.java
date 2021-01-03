@@ -3,6 +3,7 @@ package com.bb.boardborrow.modules.account;
 import com.bb.boardborrow.infra.config.AppProperties;
 import com.bb.boardborrow.infra.mail.EmailMessage;
 import com.bb.boardborrow.infra.mail.EmailService;
+import com.bb.boardborrow.modules.request.Request;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -96,5 +97,9 @@ public class AccountService implements UserDetailsService {
     public void completeSignUp(Account account) {
         account.completeSignUp();
         login(account);
+    }
+
+    public void addRequest(Account account, Request newRequest) {
+        account.addRequests(newRequest);
     }
 }

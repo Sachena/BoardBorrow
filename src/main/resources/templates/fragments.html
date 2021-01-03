@@ -198,11 +198,11 @@
             <div class="card mb-4 shadow-sm">
                 <div class="card-body row">
 
-                    <div  class="col-md-5 text-right">
+                    <div  class="col-md-10">
                         <h5 class="card-title context" th:text="${request.title}"></h5>
-                        <small  class="card-text align-content-end" th:text="${request.author.getNickname()} + ' 님께서 올린 영상'">Short description</small>
-                        <h5 class="card-title context" th:text="${request.description}"></h5>
 
+                        <small  class="card-text align-content-end" th:text="${request.author.getNickname()} + ' 님께서 올린 요청'">Short description</small>
+                        <small class="card-text align-content-end" th:text="'등록시간 ' + ${request.post} ">post time</small>
                     </div>
 
                 </div>
@@ -211,8 +211,26 @@
     </div>
 </div>
 
+<div th:fragment="editor-script">
+    <script src="/node_modules/summernote/dist/summernote-bs4.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('.editor').summernote({
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Noto Sans KR', 'Merriweather'],
+                placeholder: '스터디의 목표, 일정, 진행 방식, 사용할 교재 또는 인터넷 강좌 그리고 모집중인 스터디원 등 스터디에 대해 자세히 적어 주세요.',
+                tabsize: 2,
+                height: 300
+            });
+        });
+    </script>
+</div>
 
 
+<script th:fragment="tooltip" type="application/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 
 

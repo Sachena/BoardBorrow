@@ -22,12 +22,14 @@ public class Request {
 
     private String title;
 
-    private LocalDateTime start;
-    private LocalDateTime end;
+    //private LocalDateTime start;
+    //private LocalDateTime end;
 
     private String description;
-    private String boardgame;
-    private int pay;
+    //private String boardgame;
+    //private int pay;
+
+    private LocalDateTime post;
 
     @ManyToOne
     @JoinColumn(name = "account_id")

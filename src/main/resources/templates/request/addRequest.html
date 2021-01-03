@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <div>addRequest</div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: main-nav"></div>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>새로운 보드게임 요청</h2>
+    </div>
+    <div class="row justify-content-center">
+        <form class="needs-validation col-sm-10" th:action="@{/request/new-request}" th:object="${requestForm}" method="post" novalidate>
+
+            <div class="form-group">
+                <label for="title">스터디 이름</label>
+                <input id="title" type="text" th:field="*{title}" class="form-control"
+                       placeholder="스터디 이름" aria-describedby="titleHelp" required max="50">
+                <small id="titleHelp" class="form-text text-muted">
+                    스터디 이름을 50자 이내로 입력하세요.
+                </small>
+                <small class="invalid-feedback">스터디 이름을 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
+            </div>
+
+            <div class="form-group">
+                <label for="shortDescription">짧은 소개</label>
+                <textarea id="shortDescription" type="textarea" th:field="*{description}" class="form-control"
+                          placeholder="스터디를 짧게 소개해 주세요." aria-describedby="shortDescriptionHelp" required maxlength="100"></textarea>
+                <small id="shortDescriptionHelp" class="form-text text-muted">
+                    100자 이내로 스터디를 짧은 소개해 주세요.
+                </small>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit"
+                        aria-describedby="submitHelp" >새로운 보드게임 요청</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="fragments.html :: footer"></div>
+</div>
+<script th:replace="fragments.html :: tooltip"></script>
+<script th:replace="fragments.html :: form-validation"></script>
+<script th:replace="fragments.html :: editor-script"></script>
 </body>
 </html>
