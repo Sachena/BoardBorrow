@@ -26,7 +26,9 @@ public class Request {
     //private LocalDateTime end;
 
     private String description;
-    //private String boardgame;
+
+    @Lob @Basic(fetch = FetchType.EAGER)
+    private String photo;
     //private int pay;
 
     private LocalDateTime post;

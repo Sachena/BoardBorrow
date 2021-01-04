@@ -14,4 +14,6 @@ public class RequestForm {
     private String description;
 
 
+    private String photo;
+
 }
