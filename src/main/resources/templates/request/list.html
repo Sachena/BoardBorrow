@@ -37,17 +37,20 @@
 
   <div class="row text-center" style="width: 100%">
 
-    <div class = "col-md-5">
+    <div class = "col-md-3">
 
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-5 ">
 
-      <div class="row justify-content-center">
-        <a href="#" th:href="@{/request/new-request}" >보드게임 요청</a>
+
+
         <div th:replace="fragments.html :: request-list (requestList=${requestPage.getContent()})" ></div>
-      </div>
 
+
+    </div>
+    <div>
+      <a href="#" th:href="@{/request/new-request}" >보드게임 요청</a>
     </div>
 
 

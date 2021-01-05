@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,15 @@ public class RequestService {
         newRequest.setPost(LocalDateTime.now());
         accountService.addRequest(account,newRequest);
         return newRequest;
+
+    }
+
+    public Optional<Request> getRequest(Long requestId) {
+
+
+        Optional<Request> request = this.requestRepository.findById(requestId);
+        return request;
+
 
     }
 }

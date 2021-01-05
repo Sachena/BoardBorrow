@@ -4,6 +4,7 @@ package com.bb.boardborrow.modules.request;
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.CurrentAccount;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.Errors;
 import org.springframework.data.domain.Pageable;
@@ -13,12 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class RequestController {
 
     private final RequestRepository requestRepository;
@@ -54,8 +58,18 @@ public class RequestController {
         }
 
         requestService.createNewRequest(modelMapper.map(requestForm, Request.class), account);
+
         return "redirect:/request";
 
+    }
+
+    @GetMapping("/request/{requestId}")
+    public String viewRequest(@CurrentAccount Account account, @PathVariable Long requestId, Model model) {
+        Request request = requestRepository.findById(requestId).get();
+        model.addAttribute(account);
+        model.addAttribute(request);
+
+        return "request/view";
     }
 
 }

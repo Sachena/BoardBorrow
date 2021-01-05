@@ -22,8 +22,9 @@ public class Request {
 
     private String title;
 
-    //private LocalDateTime start;
-    //private LocalDateTime end;
+    private LocalDateTime start;
+    private LocalDateTime end;
+
 
     private String description;
 

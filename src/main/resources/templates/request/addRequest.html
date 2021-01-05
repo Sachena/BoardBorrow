@@ -12,17 +12,17 @@
 
 
     <div class="row justify-content-center">
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="card text-center">
                 <div class="card-header">
                     보드게임 이미지
                 </div>
                 <div id="current-boardgame-image" class="mt-3">
                     <svg th:if="${#strings.isEmpty(photo)}" class="rounded"
-                         th:data-jdenticon-value="${account.nickname}" width="500" height="500"></svg>
+                         th:data-jdenticon-value="${account.nickname}" width="300" height="300"></svg>
                     <img th:if="${!#strings.isEmpty(photo)}" class="rounded"
                          th:src="${photo}"
-                         width="500" height="500" alt="name" th:alt="${account.nickname}"/>
+                         width="300" height="300" alt="name" th:alt="${account.nickname}"/>
                 </div>
                 <div id="new-boardgame-image" class="mt-3"></div>
                 <div class="card-body">
@@ -43,7 +43,7 @@
 
         <form class="needs-validation col-sm-10" th:action="@{/request/new-request}" th:object="${requestForm}" method="post" novalidate>
 
-            <div class="form-group">
+            <div class="form-group col-md-4">
                 <label for="title">제목</label>
                 <input id="title" type="text" th:field="*{title}" class="form-control"
                        placeholder="제목" aria-describedby="titleHelp" required max="50">
@@ -52,6 +52,26 @@
                 </small>
                 <small class="invalid-feedback">스터디 이름을 입력하세요.</small>
                 <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</small>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="startDateTime">모임 시작 일시</label>
+                <input id="startDateTime" type="datetime-local" th:field="*{start}" class="form-control"
+                       aria-describedby="startDateTimeHelp" required>
+                <small id="startDateTimeHelp" class="form-text text-muted">
+                    모임 시작 일시를 입력하세요. 상세한 모임 일정은 본문에 적어주세요.
+                </small>
+                <small class="invalid-feedback">모임 시작 일시를 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Error</small>
+
+                <label for="startDateTime">모임 종료 일시</label>
+                <input id="endDateTime" type="datetime-local" th:field="*{end}" class="form-control"
+                       aria-describedby="endDateTimeHelp" required>
+                <small id="endDateTimeHelp" class="form-text text-muted">
+                    모임 종료 일시가 지나면 모임은 자동으로 종료 상태로 바뀝니다.
+                </small>
+                <small class="invalid-feedback">모임 종료 일시를 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('end')}" th:errors="*{end}">Error</small>
             </div>
 
             <div class="form-group">

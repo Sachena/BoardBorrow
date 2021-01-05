@@ -197,14 +197,19 @@
         <div th:each="request: ${requestList}">
             <div class="card mb-4 shadow-sm">
                 <div class="card-body row">
-
-                    <div  class="col-md-10">
-                        <h5 class="card-title context" th:text="${request.title}"></h5>
-
-                        <small  class="card-text align-content-end" th:text="${request.author.getNickname()} + ' 님께서 올린 요청'">Short description</small>
-                        <small class="card-text align-content-end" th:text="'등록시간 ' + ${request.post} ">post time</small>
+                    <div class="col-md-3">
+                        <img th:src="${request.photo}" width="125" height="125">
                     </div>
+                    <div class="card-body row">
 
+                        <div  class="col-md-10">
+                            <a href="#" th:href="@{'/request/' + ${request.id}}" class="card-link" th:text="${request.title}"></a>
+
+                            <small  class="card-text align-content-end" th:text="${request.author.getNickname()} + ' 님께서 올린 요청'">Short description</small>
+                            <small class="card-text align-content-end" th:text="'등록시간 ' + ${request.post} ">post time</small>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: main-nav"></div>
+<div class="container">
+
+    <div class="row text-center">
+        <h2 class="col-10 pt-3" th:text="${request.getTitle()}"></h2>
+        <h6 class="col-10 pt-3" th:text="대여시작 + ${request.getStart()}"></h6>
+        <h6 class="col-10 pt-3" th:text="대여완료 + ${request.getEnd()}"></h6>
+
+    </div>
+    <div class="row justify-content-center">
+        <img  th:src="${request.getPhoto()}">
+
+    </div>
+    <div class="row text-center">
+
+        <h6 class="col-10 pt-3" th:text="${request.getDescription()}"></h6>
+
+
+    </div>
+
+
+    <div th:replace="fragments.html :: footer"></div>
+</div>
+<script th:replace="fragments.html :: tooltip"></script>
+</body>
+</html>
