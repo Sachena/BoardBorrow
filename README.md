@@ -12,6 +12,15 @@ npm install jquery --save
 npm install bootstrap
 
 
+npm install jdenticon
+
+
+npm install jquery-cropper
+
+
+npm install cropper
+
+
 maven compile
 
 
