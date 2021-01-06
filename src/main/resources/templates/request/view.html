@@ -22,6 +22,18 @@
 
     </div>
 
+    <a  class="col-sm-12" th:if="${isWriter}" th:text="수정" th:href="@{'/request/' + ${request.id} +'/update'}">
+    </a>
+    <div th:if="${isWriter}">
+        <form class="col-sm-12" action="#" th:action="@{'/request/' + ${request.id} +'/remove'}" method="post" novalidate>
+
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp">삭제</button>
+            </div>
+        </form>
+    </div>
+
+
 
     <div th:replace="fragments.html :: footer"></div>
 </div>

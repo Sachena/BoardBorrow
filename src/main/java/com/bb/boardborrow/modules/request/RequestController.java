@@ -10,12 +10,15 @@ import org.modelmapper.internal.Errors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -68,8 +71,58 @@ public class RequestController {
         Request request = requestRepository.findById(requestId).get();
         model.addAttribute(account);
         model.addAttribute(request);
+        model.addAttribute("isWriter", account.equals(request.getAuthor()));
 
         return "request/view";
     }
+
+
+    @GetMapping("/request/{requestId}/update")
+    public String updateRequestForm(@CurrentAccount Account account, Model model, @PathVariable Long requestId){
+
+        Request updateRequest = requestRepository.findById(requestId).get();
+
+        model.addAttribute(account);
+        model.addAttribute(updateRequest);
+        RequestForm updateForm = new RequestForm();
+        updateForm.setTitle(updateRequest.getTitle());
+        updateForm.setDescription(updateRequest.getDescription());
+        updateForm.setStart(updateRequest.getStart());
+        updateForm.setEnd(updateRequest.getEnd());
+        updateForm.setPhoto(updateRequest.getPhoto());
+        model.addAttribute(updateForm);
+        return "request/view-update";
+
+    }
+
+    @PostMapping("/request/{requestId}/update")
+    public String updateRequestSubmit(@CurrentAccount Account account, Model model, @PathVariable Long requestId, @Valid RequestForm requestForm
+            , Errors errors, RedirectAttributes attributes){
+
+        Request requestToUpdate = requestService.getRequestToUpdate(account,requestId);
+
+        if(errors.hasErrors()){
+            model.addAttribute(account);
+            model.addAttribute(requestToUpdate);
+            return "request/view-update";
+        }
+
+        requestService.updateRequest(requestForm,requestToUpdate);
+        attributes.addFlashAttribute("message", "스터디 소개를 수정했습니다.");
+        return "redirect:/request/" + requestToUpdate.getId();
+
+    }
+
+    @PostMapping("/request/{requestId}/remove")
+
+    public String removeRequest(@CurrentAccount Account account, @PathVariable Long requestId){
+
+        Request removeRequest = requestRepository.findById(requestId).get();
+
+        requestService.removeRequest(account, removeRequest);
+        return "redirect:/request";
+
+    }
+
 
 }
