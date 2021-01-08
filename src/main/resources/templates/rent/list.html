@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments.html :: head">
+
+<body>
+<div th:replace="fragments.html :: main-nav"></div>
+
+<div>
+
+    <div class="align-self-center m-5">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!rentPage.hasPrevious()}? disabled">
+                    <a th:href="'/?page='+@{ ${rentPage.getNumber() - 1}}"
+                       class="page-link" tabindex="-1" aria-disabled="true">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${i == rentPage.getNumber()}? active"
+                    th:each="i: ${#numbers.sequence(0, rentPage.getTotalPages() - 1)}">
+                    <a th:href="'/?page='+@{${i}}"
+                       class="page-link" href="#" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${!rentPage.hasNext()}? disabled">
+                    <a th:href="'/?page='+@{ ${rentPage.getNumber() + 1}}"
+                       class="page-link">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+</div>
+
+<div class="row text-center" style="width: 100%">
+
+    <div class = "col-md-3">
+
+    </div>
+
+    <div class="col-md-5 ">
+
+
+
+        <div th:replace="fragments.html :: rent-list (rentList=${rentPage.getContent()})" ></div>
+
+
+    </div>
+    <div>
+        <a href="#"  class="nav-link btn " th:href="@{/rent/new-rent}" >보드게임 요청</a>
+    </div>
+
+
+
+</div>
+</body>
+
+</html>
