@@ -1,6 +1,7 @@
 package com.bb.boardborrow.modules.account;
 
 
+import com.bb.boardborrow.modules.rent.Rent;
 import com.bb.boardborrow.modules.request.Request;
 import lombok.*;
 
@@ -46,8 +47,15 @@ public class Account {
     @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
     private Set<Request> requests = new HashSet<>();
 
+    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
+    private Set<Rent> rents = new HashSet<>();
+
     public void addRequests(Request request){
         this.requests.add(request);
+    }
+
+    public void addRents(Rent rent){
+        this.rents.add(rent);
     }
 
 
