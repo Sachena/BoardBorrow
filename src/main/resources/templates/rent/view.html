@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: main-nav"></div>
+<div class="container">
+
+    <div class="row text-center">
+        <h2 class="col-10 pt-3" th:text="${rent.getTitle()}"></h2>
+
+
+    </div>
+    <div class="row justify-content-center">
+        <img  th:src="${rent.getPhoto()}">
+
+    </div>
+    <div class="row text-center">
+
+        <h6 class="col-10 pt-3" th:text="${rent.getDescription()}"></h6>
+
+
+    </div>
+
+    <a  class="col-sm-12" th:if="${isWriter}" th:text="수정" th:href="@{'/rent/' + ${rent.id} +'/update'}">
+    </a>
+    <div th:if="${isWriter}">
+        <form class="col-sm-12" action="#" th:action="@{'/rent/' + ${rent.id} +'/remove'}" method="post" novalidate>
+
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp">삭제</button>
+            </div>
+        </form>
+    </div>
+
+
+
+    <div th:replace="fragments.html :: footer"></div>
+</div>
+<script th:replace="fragments.html :: tooltip"></script>
+</body>
+</html>

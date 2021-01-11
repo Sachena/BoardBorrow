@@ -255,7 +255,7 @@
                     <div class="card-body row">
 
                         <div  class="col-md-10">
-                            <a href="#" th:href="@{'/request/' + ${rent.id}}" class="card-link" th:text="${rent.title}"></a>
+                            <a href="#" th:href="@{'/rent/' + ${rent.id}}" class="card-link" th:text="${rent.title}"></a>
 
                             <small  class="card-text align-content-end" th:text="${rent.author.getNickname()} + ' 님께서 올린 요청'">Short description</small>
                             <small class="card-text align-content-end" th:text="'등록시간 ' + ${rent.post} ">post time</small>

@@ -12,7 +12,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -54,6 +56,63 @@ public class RentController {
 
         rentService.createNewRent(modelMapper.map(rentForm, Rent.class), account);
 
+        return "redirect:/rent";
+
+    }
+
+    @GetMapping("/rent/{rentId}")
+    public String viewRent(@CurrentAccount Account account, @PathVariable Long rentId, Model model) {
+        Rent rent = rentRepository.findById(rentId).get();
+        model.addAttribute(account);
+        model.addAttribute(rent);
+        model.addAttribute("isWriter", account.equals(rent.getAuthor()));
+
+        return "rent/view";
+    }
+
+    @GetMapping("/rent/{rentId}/update")
+    public String updateRentForm(@CurrentAccount Account account, Model model, @PathVariable Long rentId){
+
+
+        Rent updateRent = rentRepository.findById(rentId).get();
+
+        model.addAttribute(account);
+        model.addAttribute(updateRent);
+        RentForm updateForm = new RentForm();
+        updateForm.setTitle(updateRent.getTitle());
+        updateForm.setDescription(updateRent.getDescription());
+        updateForm.setPhoto(updateRent.getPhoto());
+        model.addAttribute(updateForm);
+        return "rent/view-update";
+
+    }
+
+    @PostMapping("/rent/{rentId}/update")
+    public String updateRentSubmit(@CurrentAccount Account account, Model model, @PathVariable Long rentId, @Valid RentForm rentForm
+            , Errors errors, RedirectAttributes attributes){
+
+
+        Rent rentToUpdate = rentService.getRentToUpdate(account,rentId);
+        if(errors.hasErrors()){
+            model.addAttribute(account);
+            model.addAttribute(rentToUpdate);
+            return "rent/view-update";
+        }
+
+        rentService.updateRequest(rentForm,rentToUpdate);
+        attributes.addFlashAttribute("message", "스터디 소개를 수정했습니다.");
+        return "redirect:/rent/" + rentToUpdate.getId();
+
+    }
+
+    @PostMapping("/rent/{rentId}/remove")
+
+    public String removeRent(@CurrentAccount Account account, @PathVariable Long rentId){
+
+
+        Rent removeRent = rentRepository.findById(rentId).get();
+
+        rentService.removeRent(account, removeRent);
         return "redirect:/rent";
 
     }
