@@ -49,9 +49,13 @@
 
 
     </div>
-    <div>
-        <a href="#"  class="nav-link btn " th:href="@{/rent/new-rent}" >보드게임 대여</a>
-    </div>
+
+    <form class="row-sm-12" action="#" th:action="@{/rent/new-rent}" >
+
+        <div class="form-group">
+            <button class="btn btn-outline-primary" >보드게임 대여</button>
+        </div>
+    </form>
 
 
 

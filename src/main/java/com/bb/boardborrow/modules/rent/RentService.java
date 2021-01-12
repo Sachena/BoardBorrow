@@ -37,10 +37,10 @@ public class RentService {
         return updateRent;
     }
 
-    public void updateRequest(RentForm rentForm, Rent requestToUpdate) {
+    public void updateRequest(RentForm rentForm, Rent rentToUpdate) {
 
-        modelMapper.map(rentForm,requestToUpdate);
-        rentRepository.save(requestToUpdate);
+        modelMapper.map(rentForm,rentToUpdate);
+        rentRepository.save(rentToUpdate);
 
     }
 

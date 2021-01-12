@@ -49,11 +49,13 @@
 
 
     </div>
-    <div>
-      <div>
-        <a href="#"  class="nav-link btn " th:href="@{/request/new-request}" >보드게임 요청</a>
+
+    <form class="row-sm-12" action="#" th:action="@{/request/new-request}" >
+
+      <div class="form-group">
+        <button class="btn btn-outline-primary" >보드게임 요청</button>
       </div>
-    </div>
+    </form>
 
 
 
