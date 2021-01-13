@@ -9,8 +9,8 @@
 
             <div class="row justify-content-center text-center">
                 <h2 class="col-10 pt-3 m-3" th:text="${request.getTitle()}"></h2>
-                <h6 class="col-10 pt-3 m-3" th:text="대여시작 + ${request.getStart()}"></h6>
-                <h6 class="col-10 pt-3 mb-5 " th:text="대여완료 + ${request.getEnd()}"></h6>
+                <h6 class="col-10 pt-3 m-3" th:text="대여시작 + ${#temporals.format(request.getStart(), ' yyyy년 MM월 dd일 HH:mm')}"></h6>
+                <h6 class="col-10 pt-3 mb-5 " th:text="반납일 + ${#temporals.format(request.getEnd(), ' yyyy년 MM월 dd일 HH:mm')}"></h6>
 
 
 
@@ -21,21 +21,21 @@
             </div>
             <div class="row justify-content-center text-center mb-4">
 
-                <h6 class="col-sm-6 pt-3" th:text="${request.getDescription()}"></h6>
+                <h5 class="col-sm-6 pt-3" th:text="${request.getDescription()}"></h5>
 
 
             </div>
 
 
 
-            <div class="col justify-content-center" th:if="${isWriter}">
-                <form class="col-sm-12" action="#" th:action="@{'/request/' + ${request.id} +'/update'}" >
+            <div class="row justify-content-center" th:if="${isWriter}">
+                <form class="m-3" action="#" th:action="@{'/request/' + ${request.id} +'/update'}" >
 
                     <div class="form-group">
                         <button class="btn btn-outline-primary"  aria-describedby="submitHelp">수정</button>
                     </div>
                 </form>
-                <form class="col-sm-12" action="#" th:action="@{'/request/' + ${request.id} +'/remove'}" method="post" novalidate>
+                <form class="m-3" action="#" th:action="@{'/request/' + ${request.id} +'/remove'}" method="post" novalidate>
 
                     <div class="form-group">
                         <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp">삭제</button>
