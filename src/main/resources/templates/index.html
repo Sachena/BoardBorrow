@@ -9,24 +9,69 @@
 <div class="alert alert-warning" role="alert" th:if="${account != null && !account?.emailVerified}">
     보드빌 가입을 완료하려면 <a href="#" th:href="@{/check-email(email=${account.email})}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
 </div>
-<div>
+
+<div class="row justify-content-center">
+    <div class="m-3">
+        보드게임 대여
+    </div>
+
+    <div class="row text-center" style="width: 100%">
+
+        <div class = "col-md-3">
+
+        </div>
+
+        <div class="col-md-5 ">
 
 
 
-
-</div>
-
-<div class="row text-center" style="width: 100%">
-
-    <div class="col-md-3">
-
-        <div class="row justify-content-center">
+            <div th:replace="fragments.html :: rent-list (rentList=${rentPage.getContent()})" ></div>
 
 
         </div>
 
+        <form class="row-sm-12" action="#" th:action="@{/rent}" >
+
+            <div class="form-group">
+                <button class="btn btn-outline-primary" >대여 더보기</button>
+            </div>
+        </form>
+
+
+
     </div>
 
+
+    <div class="m-3">
+        보드게임 요청
+    </div>
+
+
+    <div class="row text-center" style="width: 100%">
+
+        <div class = "col-md-3">
+
+        </div>
+
+        <div class="col-md-5 ">
+
+
+
+            <div th:replace="fragments.html :: request-list (requestList=${requestPage.getContent()})" ></div>
+
+
+        </div>
+
+        <form class="row-sm-12" action="#" th:action="@{/request}" >
+
+            <div class="form-group">
+                <button class="btn btn-outline-primary" >요청 더보기</button>
+            </div>
+        </form>
+
+
+
+    </div>
 </div>
 
 
