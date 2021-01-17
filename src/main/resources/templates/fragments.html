@@ -278,6 +278,56 @@
     </div>
 </div>
 
+<div th:fragment="main-rent-list (rentList)" class="col-sm-12">
+    <div class="column justify-content-center">
+        <div th:each="rent: ${rentList}">
+            <div class="card mb-4 shadow-sm ">
+
+
+                        <div class="col-xs-12" >
+                            <a href="#" th:href="@{'/rent/' + ${rent.id}}" class="card-link" th:text="${rent.title}"></a>
+
+
+
+                        </div>
+                        <div class="col-xs-12">
+                            <small  class="card-text align-content-end" th:text="${rent.author.getNickname()} + ' 님께서 올린 대여'">Short description</small>
+                        </div>
+                        <div  class="col-xs-12">
+                            <small class="card-text align-content-end" th:text="'등록시간 ' +  ${#temporals.format(rent.post, ' yyyy년 MM월 dd일 HH:mm')} ">post time</small>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div th:fragment="main-request-list (requestList)" class="col-sm-12">
+    <div class="column justify-content-center">
+        <div th:each="request: ${requestList}">
+            <div class="card mb-4 shadow-sm">
+
+
+                        <div  class="col-xs-12">
+                            <a href="#" th:href="@{'/request/' + ${request.id}}" class="card-link" th:text="${request.title}"></a>
+
+
+
+                        </div>
+                        <div  class="col-xs-12">
+                            <small  class="card-text align-content-end" th:text="${request.author.getNickname()} + ' 님께서 올린 요청'">Short description</small>
+                        </div>
+                        <div  class="col-xs-12">
+                            <small class="card-text align-content-end" th:text="'등록시간 ' +  ${#temporals.format(request.post, ' yyyy년 MM월 dd일 HH:mm')} ">post time</small>
+                        </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
