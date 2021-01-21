@@ -2,6 +2,7 @@ package com.bb.boardborrow.modules.rent;
 
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.CurrentAccount;
+import com.bb.boardborrow.modules.comment.CommentForm;
 import com.bb.boardborrow.modules.request.Request;
 import com.bb.boardborrow.modules.request.RequestForm;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.Errors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -116,5 +116,18 @@ public class RentController {
         return "redirect:/rent";
 
     }
+
+    @PostMapping("/rent/{rentId}")
+    @ResponseBody
+    public ResponseEntity addComment(@CurrentAccount Account account, @RequestBody CommentForm commentForm,@PathVariable Long rentId){
+        Rent commentRent = rentRepository.findById(rentId).get();
+        System.out.println("rere");
+        System.out.println(commentForm.getDescription());
+        rentService.addComment(account,commentRent,commentForm.getDescription());
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }

@@ -41,6 +41,10 @@
                     </div>
                 </form>
             </div>
+            <input  class="commentInput form-control"
+                   placeholder="댓글 등록" aria-describedby="nicknameHelp" required minlength="3" maxlength="20">
+            <button class="commentSubmit btn btn-outline-primary"  type="submit" aria-describedby="submitHelp">댓글 등록</button>
+            <small class="rentId" th:text="${rent.id}" th:style="${'display:none;'}"></small>
 
         </div>
     </div>
@@ -48,7 +52,12 @@
 
 
 
+
     <div th:replace="fragments.html :: footer"></div>
+
+
+    <script th:replace="fragments.html :: ajax-csrf-header"></script>
+    <script th:replace="fragments.html :: commentSubmit"></script>
 </div>
 <script th:replace="fragments.html :: tooltip"></script>
 </body>

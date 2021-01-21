@@ -329,6 +329,47 @@
     </div>
 </div>
 
+<script type="application/javascript" th:inline="javascript" th:fragment="ajax-csrf-header">
+    $(function() {
+        var csrfToken = /*[[${_csrf.token}]]*/ null;
+        var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        });
+    });
+</script>
+
+<script th:fragment="commentSubmit" type="application/javascript">
+    $(function(){
+        $(".commentSubmit").click(function (){
+
+            var comment = $(".commentInput").val();
+            var rentId = $(".rentId").text();
+
+
+            $.ajax({
+                url:'/rent/' + rentId, //request 보낼 서버의 파일 경로
+                type:'post',
+                data: JSON.stringify({
+                    'description': comment,
+                    }), //보낼 데이터
+                // dataType: "json",
+                contentType: "application/json",
+                success : function(data) {
+
+                    location.reload();
+                }
+
+
+
+            });
+
+        });
+
+
+    });
+</script>
+
 
 
 </html>
