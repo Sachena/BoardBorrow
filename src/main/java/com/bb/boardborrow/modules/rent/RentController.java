@@ -3,12 +3,14 @@ package com.bb.boardborrow.modules.rent;
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.CurrentAccount;
 import com.bb.boardborrow.modules.comment.CommentForm;
+import com.bb.boardborrow.modules.comment.DeleteForm;
 import com.bb.boardborrow.modules.request.Request;
 import com.bb.boardborrow.modules.request.RequestForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.Errors;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class RentController {
     private  final RentRepository rentRepository;
     private final RentService rentService;
     private final ModelMapper modelMapper;
+    private final RentCommentRepository rentCommentRepository;
+    private final RentCommentService rentCommentService;
 
     @GetMapping("/rent")
     public String rent(@CurrentAccount Account account, Model model, @PageableDefault(size = 7,page = 0) Pageable pageable){
@@ -61,11 +65,13 @@ public class RentController {
     }
 
     @GetMapping("/rent/{rentId}")
-    public String viewRent(@CurrentAccount Account account, @PathVariable Long rentId, Model model) {
+    public String viewRent(@CurrentAccount Account account, @PathVariable Long rentId, Model model,@PageableDefault(size = 7,page = 0,sort = "post", direction = Sort.Direction.DESC) Pageable pageable) {
         Rent rent = rentRepository.findById(rentId).get();
         model.addAttribute(account);
         model.addAttribute(rent);
         model.addAttribute("isWriter", account.equals(rent.getAuthor()));
+        model.addAttribute("commentPage", rentCommentRepository.findAll(pageable));
+
 
         return "rent/view";
     }
@@ -121,9 +127,17 @@ public class RentController {
     @ResponseBody
     public ResponseEntity addComment(@CurrentAccount Account account, @RequestBody CommentForm commentForm,@PathVariable Long rentId){
         Rent commentRent = rentRepository.findById(rentId).get();
-        System.out.println("rere");
-        System.out.println(commentForm.getDescription());
         rentService.addComment(account,commentRent,commentForm.getDescription());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/rent/{rentId}")
+    @ResponseBody
+    public ResponseEntity deleteComment(@CurrentAccount Account account, @RequestBody DeleteForm deleteForm, @PathVariable Long rentId ){
+        RentComment deleteComment = rentCommentRepository.findRentCommentByIdAndRent_Id(deleteForm.getDeleteId(), rentId);
+        System.out.println(deleteComment.getId());
+        rentCommentService.deleteComment(account,deleteComment);
 
         return ResponseEntity.ok().build();
     }

@@ -339,36 +339,65 @@
     });
 </script>
 
-<script th:fragment="commentSubmit" type="application/javascript">
-    $(function(){
-        $(".commentSubmit").click(function (){
+<div th:fragment="rentComment-list (rentCommentList)" class="col-sm-12">
+    <div class="column align-content-center">
+        <div th:each="rentComment: ${rentCommentList}">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body row">
 
-            var comment = $(".commentInput").val();
-            var rentId = $(".rentId").text();
+                    <div class="card-body">
+                        <div  class="col-md-10">
+                            <small  class="card-text align-content-end" th:text="${rentComment.author.getNickname()} + ' 님께서 올린 댓글'">Short description</small>
+                        </div>
+                        <div  class="col-md-10 m-1">
+                            <small  class="card-text align-content-end" th:text="${rentComment.description}">Short description</small>
+                        </div>
+                        <div  class="col-md-10 m-1">
+                            <small class="card-text align-content-end" th:text="'등록시간 ' +  ${#temporals.format(rentComment.post, ' yyyy년 MM월 dd일 HH:mm')} ">post time</small>
+                        </div>
+                        <small class="rentCommentId" th:text="${rentComment.id}"  th:style="${'display:none;'}" ></small>
+                    </div>
+                    <button class="button btn-outline-primary m-2"  th:if="${account.equals(rentComment.author)}" >
+                        댓글 수정
+                    </button>
+
+                    <button class="button btn-outline-danger m-2"  onclick="commentRemove()" th:if="${account.equals(rentComment.author)}">
+                        댓글 삭제
+                    </button>
+                    <script>
+                        function commentRemove(){
+
+                            var rentCommentId = $(".rentCommentId").text();
 
 
-            $.ajax({
-                url:'/rent/' + rentId, //request 보낼 서버의 파일 경로
-                type:'post',
-                data: JSON.stringify({
-                    'description': comment,
-                    }), //보낼 데이터
-                // dataType: "json",
-                contentType: "application/json",
-                success : function(data) {
+                            $.ajax({
+                                url:window.location.href, //request 보낼 서버의 파일 경로
+                                type:'delete',
+                                data: JSON.stringify({
+                                    'deleteId': rentCommentId,
+                                }), //보낼 데이터
+                                // dataType: "json",
+                                contentType: "application/json",
+                                success : function(data) {
 
-                    location.reload();
-                }
-
-
-
-            });
-
-        });
+                                    location.reload();
+                                }
 
 
-    });
-</script>
+
+                            });
+
+                        };
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 

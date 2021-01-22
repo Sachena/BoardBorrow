@@ -41,10 +41,38 @@
                     </div>
                 </form>
             </div>
-            <input  class="commentInput form-control"
-                   placeholder="댓글 등록" aria-describedby="nicknameHelp" required minlength="3" maxlength="20">
-            <button class="commentSubmit btn btn-outline-primary"  type="submit" aria-describedby="submitHelp">댓글 등록</button>
-            <small class="rentId" th:text="${rent.id}" th:style="${'display:none;'}"></small>
+
+            <div class="row justify-content-center ">
+                <input  class="commentInput form-control"
+                        placeholder="댓글 등록" aria-describedby="nicknameHelp" required minlength="3" maxlength="20">
+                <button class="commentSubmit btn btn-outline-primary" onclick="rentCommentSubmit()"  type="submit" aria-describedby="submitHelp">댓글 등록</button>
+                <small class="rentId" th:text="${rent.id}" th:style="${'display:none;'}"></small>
+
+
+
+                <div th:replace="fragments.html :: rentComment-list (rentCommentList=${commentPage.getContent()})" ></div>
+
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${!commentPage.hasPrevious()}? disabled">
+                        <a th:href="'/?page='+@{ ${commentPage.getNumber() - 1}}"
+                           class="page-link" tabindex="-1" aria-disabled="true">
+                            Previous
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${i == commentPage.getNumber()}? active"
+                        th:each="i: ${#numbers.sequence(0, commentPage.getTotalPages() - 1)}">
+                        <a th:href="'/?page='+@{${i}}"
+                           class="page-link" href="#" th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${!commentPage.hasNext()}? disabled">
+                        <a th:href="'/?page='+@{ ${commentPage.getNumber() + 1}}"
+                           class="page-link">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
 
         </div>
     </div>
@@ -57,7 +85,30 @@
 
 
     <script th:replace="fragments.html :: ajax-csrf-header"></script>
-    <script th:replace="fragments.html :: commentSubmit"></script>
+    <script>
+        function rentCommentSubmit(){
+            var comment = $(".commentInput").val();
+            var rentId = $(".rentId").text();
+
+
+            $.ajax({
+                url:'/rent/' + rentId, //request 보낼 서버의 파일 경로
+                type:'post',
+                data: JSON.stringify({
+                    'description': comment,
+                }), //보낼 데이터
+                // dataType: "json",
+                contentType: "application/json",
+                success : function(data) {
+
+                    location.reload();
+                }
+
+
+
+            });
+        }
+    </script>
 </div>
 <script th:replace="fragments.html :: tooltip"></script>
 </body>
