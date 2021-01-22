@@ -1,6 +1,6 @@
 # BoardBorrow
  
-In terminal cd/src/main/resources/static
+In terminal cd src/main/resources/static
 
 
 npm init
