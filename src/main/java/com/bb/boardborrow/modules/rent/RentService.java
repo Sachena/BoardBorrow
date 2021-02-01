@@ -58,5 +58,15 @@ public class RentService {
         newRentComment.setAuthor(account);
         newRentComment.setRent(rent);
         rentCommentRepository.save(newRentComment);
+        account.getRentComments().add(newRentComment);
+        rent.getRentComments().add(newRentComment);
+    }
+
+    public void deleteComment(Account account,Rent rent, RentComment deleteComment) {
+
+        rentCommentRepository.delete(deleteComment);
+        account.getRentComments().remove(deleteComment);
+        rent.getRentComments().remove(deleteComment);
+
     }
 }

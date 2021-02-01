@@ -13,11 +13,11 @@ public class RentCommentRepositoryExtensionImpl extends QuerydslRepositorySuppor
         super(RentComment.class);
     }
     @Override
-    public Page<RentComment> findAll(Pageable pageable) {
+    public Page<RentComment> findAll(Pageable pageable,Long rentId) {
 
 
         QRentComment rentComment = QRentComment.rentComment;
-        JPQLQuery<RentComment> query = from(rentComment).distinct();
+        JPQLQuery<RentComment> query = from(rentComment).where(rentComment.rent.id.eq(rentId)).distinct();
         JPQLQuery<RentComment> pageableQuery = getQuerydsl().applyPagination(pageable, query);
         QueryResults<RentComment> fetchResults = pageableQuery.fetchResults();
         return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());

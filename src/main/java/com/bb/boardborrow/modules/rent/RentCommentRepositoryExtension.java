@@ -7,6 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface RentCommentRepositoryExtension {
 
-    Page<RentComment> findAll(Pageable pageable);
+    Page<RentComment> findAll(Pageable pageable,Long rentId);
 
 }

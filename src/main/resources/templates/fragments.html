@@ -355,19 +355,24 @@
                         <div  class="col-md-10 m-1">
                             <small class="card-text align-content-end" th:text="'등록시간 ' +  ${#temporals.format(rentComment.post, ' yyyy년 MM월 dd일 HH:mm')} ">post time</small>
                         </div>
-                        <small class="rentCommentId" th:text="${rentComment.id}"  th:style="${'display:none;'}" ></small>
+
                     </div>
                     <button class="button btn-outline-primary m-2"  th:if="${account.equals(rentComment.author)}" >
                         댓글 수정
                     </button>
 
-                    <button class="button btn-outline-danger m-2"  onclick="commentRemove()" th:if="${account.equals(rentComment.author)}">
+                    <button class="deleteButton button btn-outline-danger m-2"  onclick="commentRemove(value)" th:value="${rentComment.id}" th:if="${account.equals(rentComment.author)}" text="'댓글 삭제'">
                         댓글 삭제
-                    </button>
-                    <script>
-                        function commentRemove(){
 
-                            var rentCommentId = $(".rentCommentId").text();
+                    </button>
+
+                    <script>
+
+                        function commentRemove(id){
+
+
+                            var rentCommentId = id;
+                            alert(rentCommentId);
 
 
                             $.ajax({
@@ -379,18 +384,16 @@
                                 // dataType: "json",
                                 contentType: "application/json",
                                 success : function(data) {
-
                                     location.reload();
                                 }
-
-
-
                             });
-
                         };
 
                     </script>
+
                 </div>
+
+
             </div>
         </div>
     </div>

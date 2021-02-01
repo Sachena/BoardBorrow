@@ -28,7 +28,7 @@ public class RentController {
     private final RentService rentService;
     private final ModelMapper modelMapper;
     private final RentCommentRepository rentCommentRepository;
-    private final RentCommentService rentCommentService;
+
 
     @GetMapping("/rent")
     public String rent(@CurrentAccount Account account, Model model, @PageableDefault(size = 7,page = 0) Pageable pageable){
@@ -70,7 +70,7 @@ public class RentController {
         model.addAttribute(account);
         model.addAttribute(rent);
         model.addAttribute("isWriter", account.equals(rent.getAuthor()));
-        model.addAttribute("commentPage", rentCommentRepository.findAll(pageable));
+        model.addAttribute("commentPage", rentCommentRepository.findAll(pageable,rentId));
 
 
         return "rent/view";
@@ -135,9 +135,10 @@ public class RentController {
     @DeleteMapping("/rent/{rentId}")
     @ResponseBody
     public ResponseEntity deleteComment(@CurrentAccount Account account, @RequestBody DeleteForm deleteForm, @PathVariable Long rentId ){
-        RentComment deleteComment = rentCommentRepository.findRentCommentByIdAndRent_Id(deleteForm.getDeleteId(), rentId);
+        RentComment deleteComment = rentCommentRepository.findById(deleteForm.getDeleteId()).get();
         System.out.println(deleteComment.getId());
-        rentCommentService.deleteComment(account,deleteComment);
+        Rent nowRent = rentRepository.findById(rentId).get();
+        rentService.deleteComment(account,nowRent,deleteComment);
 
         return ResponseEntity.ok().build();
     }
