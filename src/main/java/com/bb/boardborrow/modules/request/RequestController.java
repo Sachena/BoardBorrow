@@ -3,6 +3,8 @@ package com.bb.boardborrow.modules.request;
 
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.CurrentAccount;
+import com.bb.boardborrow.modules.comment.CommentForm;
+import com.bb.boardborrow.modules.rent.Rent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -14,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -31,6 +30,7 @@ public class RequestController {
     private final RequestRepository requestRepository;
     private final RequestService requestService;
     private final ModelMapper modelMapper;
+    private final RequestCommentRepository requestCommentRepository;
 
     @GetMapping("/request")
     public String request(@CurrentAccount Account account, Model model, @PageableDefault(size = 7,page = 0) Pageable pageable){
@@ -67,11 +67,13 @@ public class RequestController {
     }
 
     @GetMapping("/request/{requestId}")
-    public String viewRequest(@CurrentAccount Account account, @PathVariable Long requestId, Model model) {
+    public String viewRequest(@CurrentAccount Account account, @PathVariable Long requestId, Model model,
+                              @PageableDefault(size = 7,page = 0,sort = "post", direction = Sort.Direction.DESC) Pageable pageable) {
         Request request = requestRepository.findById(requestId).get();
         model.addAttribute(account);
         model.addAttribute(request);
         model.addAttribute("isWriter", account.equals(request.getAuthor()));
+        model.addAttribute("commentPage", requestCommentRepository.findAll(pageable,requestId));
 
         return "request/view";
     }
@@ -122,6 +124,15 @@ public class RequestController {
         requestService.removeRequest(account, removeRequest);
         return "redirect:/request";
 
+    }
+
+    @PostMapping("/request/{requestId}")
+    @ResponseBody
+    public ResponseEntity addComment(@CurrentAccount Account account, @RequestBody CommentForm commentForm, @PathVariable Long requestId){
+        Request commentRequest = requestRepository.findById(requestId).get();
+        requestService.addComment(account,commentRequest,commentForm.getDescription());
+
+        return ResponseEntity.ok().build();
     }
 
 

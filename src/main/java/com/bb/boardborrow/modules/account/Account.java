@@ -4,6 +4,7 @@ package com.bb.boardborrow.modules.account;
 import com.bb.boardborrow.modules.rent.Rent;
 import com.bb.boardborrow.modules.rent.RentComment;
 import com.bb.boardborrow.modules.request.Request;
+import com.bb.boardborrow.modules.request.RequestComment;
 import lombok.*;
 
 import javax.persistence.*;
@@ -53,6 +54,9 @@ public class Account {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private Set<RentComment> rentComments = new HashSet<>();
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    private Set<RequestComment> requestComments = new HashSet<>();
 
     public void addRequests(Request request){
         this.requests.add(request);

@@ -3,6 +3,7 @@ package com.bb.boardborrow.modules.request;
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.AccountRepository;
 import com.bb.boardborrow.modules.account.AccountService;
+import com.bb.boardborrow.modules.rent.RentComment;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
@@ -23,6 +24,7 @@ public class RequestService {
     private final AccountService accountService;
     private final ModelMapper modelMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final RequestCommentRepository requestCommentRepository;
 
     public Request createNewRequest(Request request, Account account) {
 
@@ -62,5 +64,17 @@ public class RequestService {
     public void removeRequest(Account account, Request removeRequest) {
         requestRepository.delete(removeRequest);
         account.getRequests().remove(removeRequest);
+    }
+
+    public void addComment(Account account, Request request, String description) {
+
+        RequestComment newRequestComment = new RequestComment();
+        newRequestComment.setDescription(description);
+        newRequestComment.setPost(LocalDateTime.now());
+        newRequestComment.setAuthor(account);
+        newRequestComment.setRequest(request);
+        requestCommentRepository.save(newRequestComment);
+        account.getRequestComments().add(newRequestComment);
+        request.getRequestComments().add(newRequestComment);
     }
 }

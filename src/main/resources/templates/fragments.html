@@ -357,9 +357,7 @@
                         </div>
 
                     </div>
-                    <button class="button btn-outline-primary m-2"  th:if="${account.equals(rentComment.author)}" >
-                        댓글 수정
-                    </button>
+
 
                     <button class="deleteButton button btn-outline-danger m-2"  onclick="commentRemove(value)" th:value="${rentComment.id}" th:if="${account.equals(rentComment.author)}" text="'댓글 삭제'">
                         댓글 삭제
@@ -398,6 +396,66 @@
         </div>
     </div>
 </div>
+
+
+<div th:fragment="requestComment-list (requestCommentList)" class="col-sm-12">
+    <div class="column align-content-center">
+        <div th:each="requestComment: ${requestCommentList}">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body row">
+
+                    <div class="card-body">
+                        <div  class="col-md-10">
+                            <small  class="card-text align-content-end" th:text="${requestComment.author.getNickname()} + ' 님께서 올린 댓글'">Short description</small>
+                        </div>
+                        <div  class="col-md-10 m-1">
+                            <small  class="card-text align-content-end" th:text="${requestComment.description}">Short description</small>
+                        </div>
+                        <div  class="col-md-10 m-1">
+                            <small class="card-text align-content-end" th:text="'등록시간 ' +  ${#temporals.format(requestComment.post, ' yyyy년 MM월 dd일 HH:mm')} ">post time</small>
+                        </div>
+
+                    </div>
+
+
+                    <button class="deleteButton button btn-outline-danger m-2"  onclick="commentRemove(value)" th:value="${requestComment.id}" th:if="${account.equals(requestComment.author)}" text="'댓글 삭제'">
+                        댓글 삭제
+
+                    </button>
+
+                    <script>
+
+                        function commentRemove(id){
+
+
+                            var requestCommentId = id;
+                            alert(requestCommentId);
+
+
+                            $.ajax({
+                                url:window.location.href, //request 보낼 서버의 파일 경로
+                                type:'delete',
+                                data: JSON.stringify({
+                                    'deleteId': requestCommentId,
+                                }), //보낼 데이터
+                                // dataType: "json",
+                                contentType: "application/json",
+                                success : function(data) {
+                                    location.reload();
+                                }
+                            });
+                        };
+
+                    </script>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
