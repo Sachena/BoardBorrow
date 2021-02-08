@@ -25,14 +25,15 @@ public class Request {
     private String title;
 
     private LocalDateTime start;
-    private LocalDateTime end;
+
+    private LocalDateTime dueDate;
 
 
     private String description;
 
     @Lob @Basic(fetch = FetchType.EAGER)
     private String photo;
-    //private int pay;
+
 
     private LocalDateTime post;
 

@@ -4,7 +4,9 @@ package com.bb.boardborrow.modules.request;
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.CurrentAccount;
 import com.bb.boardborrow.modules.comment.CommentForm;
+import com.bb.boardborrow.modules.comment.DeleteForm;
 import com.bb.boardborrow.modules.rent.Rent;
+import com.bb.boardborrow.modules.rent.RentComment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -90,7 +92,7 @@ public class RequestController {
         updateForm.setTitle(updateRequest.getTitle());
         updateForm.setDescription(updateRequest.getDescription());
         updateForm.setStart(updateRequest.getStart());
-        updateForm.setEnd(updateRequest.getEnd());
+        updateForm.setDueDate(updateRequest.getDueDate());
         updateForm.setPhoto(updateRequest.getPhoto());
         model.addAttribute(updateForm);
         return "request/view-update";
@@ -131,6 +133,17 @@ public class RequestController {
     public ResponseEntity addComment(@CurrentAccount Account account, @RequestBody CommentForm commentForm, @PathVariable Long requestId){
         Request commentRequest = requestRepository.findById(requestId).get();
         requestService.addComment(account,commentRequest,commentForm.getDescription());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/request/{requestId}")
+    @ResponseBody
+    public ResponseEntity deleteComment(@CurrentAccount Account account, @RequestBody DeleteForm deleteForm, @PathVariable Long requestId ){
+        RequestComment deleteComment = requestCommentRepository.findById(deleteForm.getDeleteId()).get();
+        System.out.println(deleteComment.getId());
+        Request nowRequest = requestRepository.findById(requestId).get();
+        requestService.deleteComment(account,nowRequest,deleteComment);
 
         return ResponseEntity.ok().build();
     }

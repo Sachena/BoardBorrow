@@ -3,6 +3,7 @@ package com.bb.boardborrow.modules.request;
 import com.bb.boardborrow.modules.account.Account;
 import com.bb.boardborrow.modules.account.AccountRepository;
 import com.bb.boardborrow.modules.account.AccountService;
+import com.bb.boardborrow.modules.rent.Rent;
 import com.bb.boardborrow.modules.rent.RentComment;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -76,5 +77,13 @@ public class RequestService {
         requestCommentRepository.save(newRequestComment);
         account.getRequestComments().add(newRequestComment);
         request.getRequestComments().add(newRequestComment);
+    }
+
+    public void deleteComment(Account account, Request request, RequestComment deleteComment) {
+
+        requestCommentRepository.delete(deleteComment);
+        account.getRequestComments().remove(deleteComment);
+        request.getRequestComments().remove(deleteComment);
+
     }
 }

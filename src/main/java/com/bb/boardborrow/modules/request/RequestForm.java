@@ -22,6 +22,6 @@ public class RequestForm {
     private LocalDateTime start;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime end;
+    private LocalDateTime dueDate;
 
 }
