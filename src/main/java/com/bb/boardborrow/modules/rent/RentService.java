@@ -25,6 +25,8 @@ public class RentService {
 
     public Rent createNewRent(Rent rent, Account account) {
 
+
+
         Rent newRent = rentRepository.save(rent);
         newRent.setAuthor(account);
         newRent.setPost(LocalDateTime.now());

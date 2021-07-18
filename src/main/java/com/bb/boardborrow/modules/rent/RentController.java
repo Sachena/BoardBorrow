@@ -58,6 +58,7 @@ public class RentController {
             return "rent/new-rent";
         }
 
+
         rentService.createNewRent(modelMapper.map(rentForm, Rent.class), account);
 
         return "redirect:/rent";
